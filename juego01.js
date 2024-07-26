@@ -1,5 +1,11 @@
-import { createMarioAnimations } from './src/animations/animations.js';
-import assets from './src/config/assets.js'
+import animationsMario from './src/animations/animationsMario.js';
+
+import positionMario from './src/config/positions/positionsMario.js';
+
+import assetsMario from './src/config/assets/assetsMario.js'
+import assetsClouds from './src/config/assets/assetsClouds.js'
+import assetsFloorbricks from './src/config/assets/assetsFloorbricks.js'
+
 import config from './src/config/config.js'
 
 config.scene = {
@@ -10,43 +16,44 @@ config.scene = {
 
 const game = new Phaser.Game(config);
 
-const { mario, floorbricks, cloud1 } = assets
+const { mario } = assetsMario
+const { cloud1, cloud2, cloud3 } = assetsClouds
+const { floorbricks } = assetsFloorbricks
 
-const entities = {}
+const entities = {} // Aquí guardaresmo todas las entidades, útil para las colisiones, animaciones, etc...
 
 function preload() {
-  this.load.image(cloud1.name, cloud1.asset)
+  this.load.image(cloud3.name, cloud3.asset)
 
   this.load.image(floorbricks.name, floorbricks.asset)
 
   this.load.spritesheet(mario.name, mario.asset, { frameWidth: mario.frameWidth, frameHeight: mario.frameHeight })
 
-  this.load.audio('gameover', 'assets/sound/music/gameover.mp3')
-  this.load.audio('theme', 'assets/sound/music/overworld/theme.mp3')
+  //this.load.audio('gameover', 'assets/sound/music/gameover.mp3')
+  //this.load.audio('theme', 'assets/sound/music/overworld/theme.mp3')
 
 }
 
 function create() {
 
-  this.add.image(0, 0, cloud1.name)
-    .setScale(cloud1.scale)
-    .setOrigin(assets.originX, assets.originY)
-
+  this.add.image(0, 0, cloud3.name)
+    .setScale(cloud3.scale)
+    .setOrigin(config.originX, config.originY)
 
   const floor = this.add.tileSprite(0, config.height, config.width - 32, 32, floorbricks.name)
-    .setOrigin(assets.originX, 1)
+    .setOrigin(config.originX, 1)
 
   this.physics.add.existing(floor, true); // true para objeto estático
 
   entities.floor = floor;
 
-  entities.mario = this.physics.add.sprite(32, config.height - 32 - 16, mario.name)
-    .setOrigin(assets.originX, assets.originY)
+  entities.mario = this.physics.add.sprite(positionMario.mario.x, positionMario.mario.y, mario.name)
+    .setOrigin(config.originX, config.originY)
     .setCollideWorldBounds()
     .setGravityY(300)
 
 
-  createMarioAnimations(this, mario)
+  animationsMario(this, mario)
 
   this.physics.world.setBounds(0, 0, 2000, config.height)
   this.cameras.main.setBounds(0, 0, 2000, config.height)
@@ -57,7 +64,7 @@ function create() {
   entities.keys = this.input.keyboard.createCursorKeys()
 
 
-  this.sound.play('theme')
+  //this.sound.play('theme')
 }
 
 function update() {
@@ -85,8 +92,8 @@ function update() {
     entities.mario.anims.play('mariodead')
     entities.mario.isDead = true
     entities.mario.setCollideWorldBounds(false)
-    this.sound.stopByKey('theme')
-    this.sound.play('gameover')
+    //this.sound.stopByKey('theme')
+    //this.sound.play('gameover')
 
     setTimeout(() => {
       entities.mario.setVelocityY(-350)
@@ -94,7 +101,7 @@ function update() {
 
     setTimeout(() => {
       this.scene.restart()
-    }, 8130) // 8130 son los milisegundos que dura el audio de gameover.
+    }, 100) // 8130 son los milisegundos que dura el audio de gameover.
   }
 
 }
