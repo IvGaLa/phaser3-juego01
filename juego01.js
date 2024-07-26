@@ -1,6 +1,7 @@
-import animationsMario from './src/animations/animationsMario.js';
+import animationsMario from './src/animations/animationsMario.js'
 
-import positionMario from './src/config/positions/positionsMario.js';
+import positionsMario from './src/config/positions/positionsMario.js'
+import positionsFloorbricks from './src/config/positions/positionsFloorbricks.js'
 
 import assetsMario from './src/config/assets/assetsMario.js'
 import assetsClouds from './src/config/assets/assetsClouds.js'
@@ -40,23 +41,31 @@ function create() {
     .setScale(cloud3.scale)
     .setOrigin(config.originX, config.originY)
 
-  const floor = this.add.tileSprite(0, config.height, config.width - 32, 32, floorbricks.name)
-    .setOrigin(config.originX, 1)
 
-  this.physics.add.existing(floor, true); // true para objeto estático
 
-  entities.floor = floor;
+  // Generamos el suelo
+  entities.floor = this.physics.add.staticGroup()
+  positionsFloorbricks.map(positionFloorbricks => {
+    const floor = this.add.tileSprite(positionFloorbricks.x, positionFloorbricks.y, positionFloorbricks.w, positionFloorbricks.h, positionFloorbricks.key)
+      .setOrigin(config.originX, config.originY)
+    this.physics.add.existing(floor, true); // true para objeto estático
+    entities.floor.add(floor)
+  })
 
-  entities.mario = this.physics.add.sprite(positionMario.mario.x, positionMario.mario.y, mario.name)
+
+
+
+  entities.mario = this.physics.add.sprite(positionsMario.mario.x, positionsMario.mario.y, mario.name)
     .setOrigin(config.originX, config.originY)
     .setCollideWorldBounds()
     .setGravityY(300)
+    .setScale(mario.setScale)
 
 
   animationsMario(this, mario)
 
-  this.physics.world.setBounds(0, 0, 2000, config.height)
-  this.cameras.main.setBounds(0, 0, 2000, config.height)
+  this.physics.world.setBounds(0, 0, 3584, config.height)
+  this.cameras.main.setBounds(0, 0, 3584, config.height)
   this.cameras.main.startFollow(entities.mario)
 
   this.physics.add.collider(entities.mario, entities.floor)

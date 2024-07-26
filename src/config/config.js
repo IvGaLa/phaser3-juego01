@@ -4,7 +4,7 @@ const config = {
 
   type: Phaser.AUTO,
   width: 256,
-  height: 244,
+  height: 240,
   backgroundColor: '#049cd8',
   parent: 'juego01',
   banner: false,

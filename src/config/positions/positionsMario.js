@@ -2,11 +2,11 @@
  * Guardamos las posisicones de los assets
  */
 
-import assets from "../assets/assetsMario.js"
+import assetsMario from "../assets/assetsMario.js"
 
-const { mario } = assets
+const { mario } = assetsMario
 
-const positionMario = {
+const positionsMario = {
   [mario.name]: {
     x: 42,
     y: 196
@@ -14,4 +14,4 @@ const positionMario = {
 }
 
 
-export default positionMario
+export default positionsMario
