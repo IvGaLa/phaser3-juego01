@@ -2,7 +2,7 @@
  * Guardamos las posisicones de los assets
  */
 
-import assetsMario from "../assets/assetsMario.js"
+import assetsMario from "../../assets/assetsMario.js"
 
 const { mario } = assetsMario
 
