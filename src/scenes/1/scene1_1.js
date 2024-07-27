@@ -18,17 +18,16 @@ const { floorbricks } = assetsFloorbricks
 
 const entities = {} // Aquí guardaresmo todas las entidades, útil para las colisiones, animaciones, etc...
 
-
-
 export default class Scene1_1 extends Phaser.Scene {
   constructor() {
     super({ key: 'Scene1_1' })
   }
 
   preload() {
+    // Con esto recorremos el objeto assetsClouds con un map sin necesidad de pasarlo a un array
     Object.values(assetsClouds).map(cloud => {
       this.load.image(cloud.name, cloud.asset)
-    });
+    })
 
     this.load.image(floorbricks.name, floorbricks.asset)
 
@@ -43,7 +42,7 @@ export default class Scene1_1 extends Phaser.Scene {
 
   create() {
     // Creamos el suelo
-    this.createFloor()
+    this.createFloorbricks()
 
     // Creamos las nuebes
     this.createClouds()
@@ -114,7 +113,7 @@ export default class Scene1_1 extends Phaser.Scene {
   /**
    * Generamos el suelo
    */
-  createFloor() {
+  createFloorbricks() {
     entities.floor = this.physics.add.staticGroup()
     positionsFloorbricks.map(positionFloorbricks => {
       const floor = this.add.tileSprite(positionFloorbricks.x, positionFloorbricks.y, positionFloorbricks.w, positionFloorbricks.h, positionFloorbricks.key)
@@ -131,7 +130,6 @@ export default class Scene1_1 extends Phaser.Scene {
   createClouds() {
     positionsClouds.map(cloud => {
       this.add.image(cloud.x, cloud.y, cloud.key)
-        //.setScale(cloud.setScale)
         .setScale(assetsClouds[cloud.key].setScale)
         .setOrigin(config.originX, config.originY)
     })

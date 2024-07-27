@@ -1,7 +1,6 @@
 import Scene0 from "../scenes/scene0.js"
 
 import Scene1_1 from "../scenes/1/scene1_1.js"
-import Scene1_2 from "../scenes/1/scene1_2.js"
 
 const config = {
   originX: 0, // Esto no lo utiliza Phaser directamente, lo uso yo para establecer el origin de cada asset a (0, 0)
@@ -15,7 +14,7 @@ const config = {
   banner: false,
   autoFocus: true,
   autoCenter: true,
-  scene: [Scene0, Scene1_1, Scene1_2],
+  scene: [Scene0, Scene1_1],
   scale: {
     zoom: 3
   },
